@@ -46,8 +46,8 @@ git clone --depth 1 https://github.com/openresty/headers-more-nginx-module > /de
 wget -qO modsecurity.tar.gz https://github.com/SpiderLabs/ModSecurity/releases/download/v3.0.8/modsecurity-v3.0.8.tar.gz
 gunzip -c modsecurity.tar.gz | tar xvf - > /dev/null 2>&1
 cd modsecurity-v3.0.8
-./configure --enable-standalone-module
-make
+./configure --enable-standalone-module > /dev/null 2>&1
+make > /dev/null 2>&1
 cd ..
 echo Build nginx.
 cd ..
