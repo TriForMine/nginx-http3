@@ -43,6 +43,7 @@ cd ../..
 git clone --depth 1 --recursive https://github.com/google/ngx_brotli > /dev/null 2>&1
 git clone --depth 1 https://github.com/leev/ngx_http_geoip2_module > /dev/null 2>&1
 git clone --depth 1 https://github.com/openresty/headers-more-nginx-module > /dev/null 2>&1
+echo Build modsecurity.
 wget -qO modsecurity.tar.gz https://github.com/SpiderLabs/ModSecurity/releases/download/v3.0.8/modsecurity-v3.0.8.tar.gz
 gunzip -c modsecurity.tar.gz | tar xvf - > /dev/null 2>&1
 cd modsecurity-v3.0.8
