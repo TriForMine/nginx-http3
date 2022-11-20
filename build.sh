@@ -40,10 +40,16 @@ cd ../..
 git clone --depth 1 --recursive https://github.com/google/ngx_brotli > /dev/null 2>&1
 git clone --depth 1 https://github.com/leev/ngx_http_geoip2_module > /dev/null 2>&1
 git clone --depth 1 https://github.com/openresty/headers-more-nginx-module > /dev/null 2>&1
+wget https://github.com/SpiderLabs/ModSecurity/releases/download/v3.0.8/modsecurity-v3.0.8.tar.gz > /dev/null 2>$1
+gunzip -c modsecurity-v3.0.8.tar.gz | tar xvf - > /dev/null 2>&1
+cd modsecurity-v3.0.8
+./configure --enable-standalone-module
+make
+cd ..
 echo Build nginx.
 cd ..
 sed -i 's|CFLAGS=""|CFLAGS="-Wno-ignored-qualifiers"|g' rules
-sed -i 's|--sbin-path=/usr/sbin/nginx|--sbin-path=/usr/sbin/nginx --add-module=$(CURDIR)/debian/modules/ngx_brotli --add-module=$(CURDIR)/debian/modules/ngx_http_geoip2_module --add-module=$(CURDIR)/debian/modules/headers-more-nginx-module|g' rules
+sed -i 's|--sbin-path=/usr/sbin/nginx|--sbin-path=/usr/sbin/nginx --add-module=$(CURDIR)/debian/modules/modsecurity-v3.0.8 --add-module=$(CURDIR)/debian/modules/ngx_brotli --add-module=$(CURDIR)/debian/modules/ngx_http_geoip2_module --add-module=$(CURDIR)/debian/modules/headers-more-nginx-module|g' rules
 sed -i 's|--with-cc-opt="$(CFLAGS)" --with-ld-opt="$(LDFLAGS)"|--with-cc-opt="-I../modules/boringssl/include $(CFLAGS)" --with-ld-opt="-L../modules/boringssl/build/ssl -L../modules/boringssl/build/crypto $(LDFLAGS)"|g' rules
 sed -i 's|--http-scgi-temp-path=/var/cache/nginx/scgi_temp --user=nginx --group=nginx|--user=www-data --group=www-data|g' rules
 sed -i 's|--with-compat||g' rules
